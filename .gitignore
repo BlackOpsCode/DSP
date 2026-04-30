@@ -1,0 +1,44 @@
+# =========================
+# RUST (rust_core)
+# =========================
+/rust_core/target/
+/rust_core/Cargo.lock
+rust_core/**/*.rs.bk
+
+# WASM build output
+/rust_core/pkg/
+/web/pkg/
+
+# =========================
+# NODE (web)
+# =========================
+/web/node_modules/
+/web/dist/
+/web/.vite/
+/web/.cache/
+
+# logs
+/web/npm-debug.log*
+/web/yarn-debug.log*
+/web/pnpm-debug.log*
+
+# =========================
+# ENV
+# =========================
+.env
+.env.*
+
+# =========================
+# OS / EDITOR
+# =========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# =========================
+# LARGE FILES (IMPORTANT)
+# =========================
+*.csv
+*.dat
+*.wav

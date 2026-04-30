@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Signal DSP | WASM Filter Lab</title>
+  <meta name="description" content="Rust and WebAssembly digital signal processing lab for Butterworth IIR filtering, CSV signal analysis, and fast browser-based time-domain visualization." />
+  <meta name="keywords" content="digital signal processing, DSP, Rust WASM, Butterworth filter, IIR filter, biquad cascade, CSV signal filter, browser signal processing, time domain visualization, signal analysis, Web Worker" />
+  <meta name="theme-color" content="#0b0f17" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Rust · WASM · DSP</p>
+        <h1>Signal Filter Lab</h1>
+        <p class="lead">
+          Upload CSV signal data, run Butterworth filtering in a Worker, and inspect the result instantly.
+        </p>
+      </div>
+      <div class="badge">Local compute · Minimal UI · Fast</div>
+    </section>
+
+    <section class="panel controls">
+      <label class="dropzone" id="dropzone" for="fileInput">
+        <input id="fileInput" type="file" accept=".csv,.txt,.dat" hidden />
+        <strong>Drop CSV / TXT / DAT here</strong>
+        <span>or tap to choose a file</span>
+      </label>
+
+      <div class="grid">
+        <label>
+          Sample rate <span class="unit">(Hz)</span>
+          <input id="sampleRate" type="number" value="48000" step="1" min="1" />
+        </label>
+
+        <label>
+          Cutoff / Center <span class="unit">(Hz)</span>
+          <input id="cutoff" type="number" value="2000" step="1" min="1" />
+        </label>
+
+        <label>
+          Order <span class="unit">(biquads)</span>
+          <input id="order" type="number" value="4" step="1" min="1" max="20" />
+        </label>
+
+        <label>
+          Type <span class="unit">(filter)</span>
+          <select id="filterType">
+            <option value="LowPass">Low-pass</option>
+            <option value="HighPass">High-pass</option>
+            <option value="BandPass">Band-pass</option>
+          </select>
+        </label>
+      </div>
+
+      <p class="hint">
+        CSV format: one numeric signal per line, or comma-separated rows where the last numeric value is used.
+      </p>
+
+      <div class="actions">
+        <button id="processBtn" disabled>Process signal</button>
+        <button id="resetBtn" class="ghost">Reset</button>
+      </div>
+    </section>
+
+    <section class="panel charts">
+      <div class="chart-card">
+        <div class="card-head">
+          <div>
+            <h2>Input</h2>
+            <span>Time domain · X axis in seconds · Y axis is amplitude</span>
+          </div>
+          <div class="card-actions">
+            <button class="mini" data-action="zoom-in" data-view="time">+</button>
+            <button class="mini" data-action="zoom-out" data-view="time">−</button>
+            <button class="mini" data-action="reset" data-view="time">Reset</button>
+          </div>
+        </div>
+        <canvas id="inputChart" width="1200" height="280"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <div class="card-head">
+          <div>
+            <h2>Output</h2>
+            <span>Time domain · X axis in seconds · Y axis is amplitude</span>
+          </div>
+          <div class="card-actions">
+            <button class="mini" data-action="zoom-in" data-view="time">+</button>
+            <button class="mini" data-action="zoom-out" data-view="time">−</button>
+            <button class="mini" data-action="reset" data-view="time">Reset</button>
+          </div>
+        </div>
+        <canvas id="outputChart" width="1200" height="280"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <div class="card-head">
+          <div>
+            <h2>Spectrum</h2>
+            <span>Frequency domain · X axis in Hz · Y axis in dB</span>
+          </div>
+          <div class="card-actions">
+            <button class="mini" data-action="zoom-in" data-view="spectrum">+</button>
+            <button class="mini" data-action="zoom-out" data-view="spectrum">−</button>
+            <button class="mini" data-action="reset" data-view="spectrum">Reset</button>
+          </div>
+        </div>
+        <canvas id="spectrumChart" width="1200" height="280"></canvas>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span>Samples</span>
+          <strong id="samplesOut">0</strong>
+        </div>
+        <div class="stat">
+          <span>Peak</span>
+          <strong id="peakOut">0</strong>
+        </div>
+        <div class="stat">
+          <span>RMS</span>
+          <strong id="rmsOut">0</strong>
+        </div>
+        <div class="stat">
+          <span>Worker time</span>
+          <strong id="workerMs">0 ms</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <strong>RunTimeZero</strong>
+      <span>2026 · All rights reserved</span>
+    </div>
+
+    <p class="footer-copy">
+      A modern browser-based engineering environment for high-performance computation, visualization, and experimental workflows.
+      Built for speed, clarity, and scalable processing in web-native systems.
+    </p>
+
+    <div class="footer-keywords">
+      <span>Web platform</span>
+      <span>High performance tools</span>
+      <span>Data processing</span>
+      <span>Visualization engine</span>
+      <span>Browser compute</span>
+      <span>Engineering UI</span>
+    </div>
+  </div>
+</footer>
+
+
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
