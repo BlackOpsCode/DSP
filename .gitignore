@@ -7,7 +7,6 @@ rust_core/**/*.rs.bk
 
 # WASM build output
 /rust_core/pkg/
-/web/pkg/
 
 # =========================
 # NODE (web)
